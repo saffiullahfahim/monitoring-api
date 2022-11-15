@@ -11,7 +11,12 @@ const server = http.createServer(app);
 dotenv.config();
 
 // socket
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
 global.io = io;
 
 // database connection
