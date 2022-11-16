@@ -10,8 +10,9 @@ const path = require("path");
 const monitorRouter = require("./routes/monitor");
 
 const options = {
-  key: fs.readFileSync("key.pem"),
-  cert: fs.readFileSync("cert.pem"),
+  key: fs.readFileSync(path(__dirname + "ssl/api_saffiullahfahim_me.key")),
+  cert: fs.readFileSync(path(__dirname + "ssl/api_saffiullahfahim_me.crt")),
+  ca: fs.readFileSync(path(__dirname + "ssl/api_saffiullahfahim_me.ca-bundle")),
 };
 
 // app init
