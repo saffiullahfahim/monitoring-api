@@ -47,12 +47,14 @@ app.use(express.urlencoded({ extended: true }));
 // routing setup
 app.use("/monitor", monitorRouter);
 
-app.use(express.static(path.join(__dirname, ".well-known")));
+
+app.get("/.well-known/pki-validation/39AC2E47152C8315B7582D649AB94FC0.txt", (req, res) => {
+  res.send(`E83D47FC0B557B93FB7CFCBC262554DA5A51177787AEDE45C0B48C676D718AE4 comodoca.com 637502a5a5b33`)
+})
 
 server.listen(443, () => {
   console.log(`app listening to port ${443}`);
 });
-
 
 // http server
 const httpServer = http.createServer(app);
