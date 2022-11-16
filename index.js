@@ -1,21 +1,28 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const http = require("http");
-const monitorRouter = require("./routes/monitor");
 const cors = require("cors");
+const https = require("https");
+const fs = require("fs");
+
+const monitorRouter = require("./routes/monitor");
+
+const options = {
+  key: fs.readFileSync("key.pem"),
+  cert: fs.readFileSync("cert.pem"),
+};
 
 // app init
 const app = express();
-const server = http.createServer(app);
+const server = https.createServer(options, app);
 dotenv.config();
 
 // socket
 const io = require("socket.io")(server, {
   cors: {
     origin: "*",
-    methods: ["GET", "POST"]
-  }
+    methods: ["GET", "POST"],
+  },
 });
 global.io = io;
 
@@ -38,6 +45,6 @@ app.use(express.urlencoded({ extended: true }));
 // routing setup
 app.use("/monitor", monitorRouter);
 
-server.listen(3000, () => {
-  console.log(`app listening to port ${3000}`);
+server.listen(443, () => {
+  console.log(`app listening to port ${443}`);
 });
