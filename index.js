@@ -3,7 +3,9 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const https = require("https");
+const http = require("http");
 const fs = require("fs");
+const path = require("path");
 
 const monitorRouter = require("./routes/monitor");
 
@@ -45,6 +47,14 @@ app.use(express.urlencoded({ extended: true }));
 // routing setup
 app.use("/monitor", monitorRouter);
 
+app.use(express.static(path.join(__dirname, ".well-known")));
+
 server.listen(443, () => {
   console.log(`app listening to port ${443}`);
 });
+
+
+// http server
+const httpServer = http.createServer(app);
+
+httpServer.listen(80);
